@@ -1,0 +1,11 @@
+cliente\Sender.class
+Vista\Vista.class
+cliente\VCliente.class
+Vista\ReceiverTCP.class
+cliente\VCliente$1.class
+Vista\PelotaThread.class
+Vista\Pelota.class
+Vista\Fichero.class
+cliente\SenderTCP.class
+Vista\Linea.class
+Vista\Receiver.class
