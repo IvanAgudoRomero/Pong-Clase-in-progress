@@ -23,6 +23,7 @@ public class VCliente extends JFrame implements KeyListener {
     private Sender sender;
     private SenderTCP senderTCP;
     private boolean ready;
+    private VCliente esto;
 
     protected String msg;
 
@@ -83,6 +84,8 @@ public class VCliente extends JFrame implements KeyListener {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 ready = true;
+                System.out.println("hola XD");
+                senderTCP = new SenderTCP(esto, ip.getText().trim(), Integer.parseInt(puerto.getText().trim()));
             }
         });
 
@@ -93,7 +96,7 @@ public class VCliente extends JFrame implements KeyListener {
         sender = new Sender(this);
         Thread t = new Thread(sender);
         t.start();
-        senderTCP = new SenderTCP(this, ip.getText().trim(), Integer.parseInt(puerto.getText().trim()));
+        esto = this;
     }
 
     public static void main(String[] args) {
@@ -133,5 +136,9 @@ public class VCliente extends JFrame implements KeyListener {
 
     public JTextField getNombre() {
         return nombre;
+    }
+
+    public JTextField getJugador() {
+        return jugador;
     }
 }

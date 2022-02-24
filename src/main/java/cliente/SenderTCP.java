@@ -25,6 +25,7 @@ public class SenderTCP {
         try {
             clientSocket = new Socket(ip, port);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
+            out.println(getDatos());
         } catch (IOException ex) {
             Logger.getLogger(SenderTCP.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
@@ -39,7 +40,7 @@ public class SenderTCP {
 
     public String getDatos(){
         String datos = null;
-        datos = vc.getVelocidad().getText().trim()+"#"+vc.getGoles().getText().trim()+"#"+ vc.getNombre().getText().trim();
+        datos = vc.getVelocidad().getText().trim()+"#"+vc.getGoles().getText().trim()+"#"+ vc.getNombre().getText().trim()+"#"+vc.getJugador().getText().trim();
         return datos;
     }
 }

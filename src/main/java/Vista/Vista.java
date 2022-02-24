@@ -13,10 +13,10 @@ import javax.swing.JPanel;
 public class Vista extends JFrame {
 
     protected JLabel plataformaI, plataformaD, bola;
-    private JLabel puntosI, puntosD;
+    protected JLabel puntosI, puntosD;
     private JPanel escenario;
     private JPanel puntuaciones;
-    private Pelota pelota;
+    protected Pelota pelota;
     private Thread hiloBola;
     private Receiver receiver;
     private ReceiverTCP receiverTCP;
@@ -50,6 +50,7 @@ public class Vista extends JFrame {
         escenario.add(bola);
 
         pelota = new Pelota(800, 570);  //llamar con ese tamaño porque lo llamas para setear los márgenes
+
         hiloBola = new Thread(new PelotaThread(this, pelota));
         hiloBola.start();
 
