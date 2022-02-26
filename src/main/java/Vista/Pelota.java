@@ -1,9 +1,9 @@
 package Vista;
 
 public class Pelota {
-    private int posX, posY, dirX, dirY, radio=10, margenX, margenY, velocidad;
+    private int posX, posY, dirX, dirY, radio=10, margenX, margenY;
 
-    public Pelota(int margenX, int margenY) {
+    public Pelota(int margenX, int margenY, int velocidad) {
         this.margenX = margenX-45;
         this.margenY = margenY-45;
         posX = 350;
@@ -93,12 +93,12 @@ public class Pelota {
     public void setMargenY(int margenY) {
         this.margenY = margenY;
     }
-
+/*
     public int getVelocidad() {
         return velocidad;
     }
 
     public void setVelocidad(int velocidad) {
         this.velocidad = velocidad;
-    }
+    }*/
 }

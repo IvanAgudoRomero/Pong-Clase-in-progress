@@ -48,7 +48,8 @@ public class ReceiverTCP implements Runnable{
     public void procesaMsg(String msg){
         String[] datos = new String[3];
         datos = msg.split("#");
-        v.pelota.setVelocidad(Integer.parseInt(datos[0]));
+        //v.pelota.setVelocidad(Integer.parseInt(datos[0]));
+        v.ejecutarBola(Integer.parseInt(datos[0]));
         if(datos[3].equals("p1")){
             v.puntosI.setText(datos[2]);
         }else if(datos[3].equals("p1")){

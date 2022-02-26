@@ -49,10 +49,8 @@ public class Vista extends JFrame {
         escenario.add(plataformaI);
         escenario.add(bola);
 
-        pelota = new Pelota(800, 570);  //llamar con ese tamaño porque lo llamas para setear los márgenes
 
-        hiloBola = new Thread(new PelotaThread(this, pelota));
-        hiloBola.start();
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Pong Game");
@@ -63,9 +61,10 @@ public class Vista extends JFrame {
         Thread t = new Thread(receiver);
         t.start();
 
-        receiverTCP = new ReceiverTCP(this);
+        receiverTCP = new ReceiverTCP(this); //solo se hace un hilo porque no detecta cuantas conexiones se hacen
         Thread t2 = new Thread(receiverTCP);
         t2.start();
+
     }
 
     public void pintarBola(Pelota bola) {
@@ -93,5 +92,11 @@ public class Vista extends JFrame {
                 plataformaD.setLocation(plataformaD.getLocation().x, plataformaD.getLocation().y + 5);
             }
         }
+    }
+
+    public void ejecutarBola(int velocidad){
+        pelota = new Pelota(800, 570, velocidad);  //llamar con ese tamaño porque lo llamas para setear los márgenes
+        hiloBola = new Thread(new PelotaThread(this, pelota)); //la bola empieza a moverse si o si
+        hiloBola.start();
     }
 }
