@@ -2,8 +2,11 @@ package Vista;
 
 public class Pelota {
     private int posX, posY, dirX, dirY, radio=10, margenX, margenY;
+    private int p1 = 0, p2 = 0;
+    private Vista v;
 
-    public Pelota(int margenX, int margenY, int velocidad) {
+    public Pelota(int margenX, int margenY, int velocidad, Vista v) {
+        this.v = v;
         this.margenX = margenX-45;
         this.margenY = margenY-45;
         posX = 350;
@@ -25,10 +28,12 @@ public class Pelota {
         posX += dirX;
         posY += dirY;
         
-        if ((posX) <-1) {
+        if ((posX) <-1) { //esto es lo que hace que rebote
             dirX*=-1;
+            p2++;
         } else if ((posX/*+radio*/) >= margenX)  {
             dirX*=-1;
+            p1++;
         }
         
         if ((posY) <-1) {
@@ -36,6 +41,9 @@ public class Pelota {
         } else if ((posY/*+radio*/) >= margenY)  {
             dirY*=-1;
         }
+        v.numeroD.setText(p2+"");
+        v.numeroI.setText(p1+"");
+        v.arbitro();
     }
 
     public int getPosX() {

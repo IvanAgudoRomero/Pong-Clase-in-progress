@@ -15,6 +15,7 @@ public class Vista extends JFrame {
 
     protected JLabel plataformaI, plataformaD, bola;
     protected JLabel puntosI, puntosD;
+    protected JLabel numeroI, numeroD;
     private JPanel escenario;
     private JPanel puntuaciones;
     protected Pelota pelota;
@@ -22,9 +23,12 @@ public class Vista extends JFrame {
     private Receiver receiver;
     private ReceiverTCP receiverTCP;
     protected boolean empezar = false;
-    boolean conexion1;
-    boolean conexion2;
+    private boolean conexion1;
+    private boolean conexion2;
     private int velocidad;
+    private String[] datos;
+    private String[] datosLargos;
+    protected boolean continuar = true;
 
     public Vista() {
         conexion1 = false;
@@ -43,15 +47,20 @@ public class Vista extends JFrame {
         plataformaD.setBounds(760, 470, 15, 51);
         bola.setBounds(350, 350, 25, 25);
 
-        puntosD = new JLabel("PUNTOS: 0");
-        puntosI = new JLabel("PUNTOS: 0");
+        puntosD = new JLabel("PUNTOS:");
+        puntosI = new JLabel("PUNTOS:");
+
+        numeroD = new JLabel("0");
+        numeroI = new JLabel("0");
 
         setLayout(new BorderLayout());
         escenario.setLayout(null);
         escenario.setBackground(Color.blue);
         puntuaciones.setLayout(new GridLayout(1, 2));
         puntuaciones.add(puntosI);
+        puntuaciones.add(numeroI);
         puntuaciones.add(puntosD);
+        puntuaciones.add(numeroD);
 
         add(escenario, BorderLayout.CENTER);
         add(puntuaciones, BorderLayout.SOUTH);
@@ -106,27 +115,36 @@ public class Vista extends JFrame {
 
     public void ejecutarBola(int velocidad){
         if(empezar) {
-            pelota = new Pelota(800, 570, velocidad);  //llamar con ese tamaño porque lo llamas para setear los márgenes
+            pelota = new Pelota(800, 570, velocidad, this);  //llamar con ese tamaño porque lo llamas para setear los márgenes
             hiloBola = new Thread(new PelotaThread(this, pelota)); //la bola empieza a moverse si o si
             hiloBola.start();
         }
     }
 
     public void procesaMsg(String msg){
-        String[] datos;
         datos = msg.split("#");
 
         if(datos.length>2) {
-            this.puntosI.setText(datos[2].toUpperCase(Locale.ROOT)+": 0");
+            datosLargos=datos;
+            this.puntosI.setText(datos[2].toUpperCase(Locale.ROOT));
             velocidad = Integer.parseInt(datos[0]);
             conexion1 = true;
         }else{
-            this.puntosD.setText(datos[0].toUpperCase(Locale.ROOT)+": 0");
+            this.puntosD.setText(datos[0].toUpperCase(Locale.ROOT));
             conexion2 = true;
         }
         if(conexion1 && conexion2) {
             empezar = true;
             this.ejecutarBola(velocidad);
+        }
+    }
+
+    public void arbitro(){
+        int limPuntos = Integer.parseInt(datosLargos[1]);
+        if(Integer.parseInt(numeroD.getText())==limPuntos){
+            continuar = false;
+        }else if(Integer.parseInt(numeroI.getText())==limPuntos){
+            continuar = false;
         }
     }
 }
