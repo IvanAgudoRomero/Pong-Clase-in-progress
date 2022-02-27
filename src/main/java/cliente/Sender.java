@@ -11,6 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ public class Sender implements Runnable{
     public byte[] buffer;
     public DatagramPacket datagram;
     public VCliente c;
+    public VCliente2 c2;
 
     public Sender(VCliente c) {
         try {                  
@@ -41,18 +43,38 @@ public class Sender implements Runnable{
             Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+    public Sender(VCliente2 c) {
+        try {
+            this.c2=c;
+            ip = InetAddress.getByName("127.0.0.1");
+            port = 2045;
+            mySocket = new DatagramSocket();
+
+
+        } catch (SocketException ex) {
+            Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     @Override
     public void run() {
         while(true){
-            try { 
-                buffer = c.msg.getBytes();
-                //enviamos msg cada x tiempo
-                datagram = new DatagramPacket(buffer, buffer.length, ip, port);
-                mySocket.send(datagram);
-                Thread.sleep(100);                             
+            try {
+                if(c==null){
+                    buffer = c2.msg.getBytes();
+                    datagram = new DatagramPacket(buffer, buffer.length, ip, port);
+                    mySocket.send(datagram);
+                    Thread.sleep(100);
+                }else {
+                    buffer = c.msg.getBytes();
+                    //enviamos msg cada x tiempo
+                    datagram = new DatagramPacket(buffer, buffer.length, ip, port);
+                    mySocket.send(datagram);
+                    Thread.sleep(100);
+                }
             } catch (IOException ex) {
                 Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {

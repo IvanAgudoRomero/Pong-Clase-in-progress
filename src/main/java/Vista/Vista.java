@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,7 +62,7 @@ public class Vista extends JFrame {
         Thread t = new Thread(receiver);
         t.start();
 
-        receiverTCP = new ReceiverTCP(this); //solo se hace un hilo porque no detecta cuantas conexiones se hacen
+        receiverTCP = new ReceiverTCP(this);
         Thread t2 = new Thread(receiverTCP);
         t2.start();
 
@@ -98,5 +99,24 @@ public class Vista extends JFrame {
         pelota = new Pelota(800, 570, velocidad);  //llamar con ese tamaño porque lo llamas para setear los márgenes
         hiloBola = new Thread(new PelotaThread(this, pelota)); //la bola empieza a moverse si o si
         hiloBola.start();
+    }
+
+    public void procesaMsg(String msg){
+        String[] datos;
+        datos = msg.split("#");
+        if(datos.length>2) {
+            this.puntosI.setText(datos[2].toUpperCase(Locale.ROOT)+": 0");
+            /*
+            if (datos[3].equals("p1")) {
+                v.puntosI.setText(datos[2]);
+            } else if (datos[3].equals("p1")) {
+                v.puntosD.setText(datos[2]);
+            }
+
+             */
+        }else{
+            this.puntosD.setText(datos[0].toUpperCase(Locale.ROOT)+": 0");
+        }
+        this.ejecutarBola(Integer.parseInt(datos[0]));
     }
 }

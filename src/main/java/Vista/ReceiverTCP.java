@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,9 +14,6 @@ public class ReceiverTCP implements Runnable{
     private Vista v;
     private int port = 2045;
     private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private BufferedReader in;
-    private String inputLine;
 
     public ReceiverTCP(Vista v) {
         this.v = v;
@@ -23,37 +21,16 @@ public class ReceiverTCP implements Runnable{
     
     @Override
     public void run() {
-        serverSocket = null;
-        clientSocket = null;
-        in = null;
         try {
             serverSocket = new ServerSocket(port);
-            clientSocket = serverSocket.accept();
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            inputLine = in.readLine();
-            procesaMsg(inputLine);
-        } catch (IOException ex) {
-            Logger.getLogger(ReceiverTCP.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            try {
-                in.close();
-                clientSocket.close();
-                serverSocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ReceiverTCP.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }        
-    }
-
-    public void procesaMsg(String msg){
-        String[] datos = new String[3];
-        datos = msg.split("#");
-        //v.pelota.setVelocidad(Integer.parseInt(datos[0]));
-        v.ejecutarBola(Integer.parseInt(datos[0]));
-        if(datos[3].equals("p1")){
-            v.puntosI.setText(datos[2]);
-        }else if(datos[3].equals("p1")){
-            v.puntosD.setText(datos[2]);
+        for (int i = 0; i < 2; i++) {
+            Thread t = new Thread(new Aceptador(v, serverSocket.accept()));
+            t.start();
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
+
+
 }
