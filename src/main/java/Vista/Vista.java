@@ -3,8 +3,6 @@ package Vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -100,14 +98,18 @@ public class Vista extends JFrame {
         numPad = numPad.trim();
         if (numPad.equals("p1")) {
             if (mov.equals("w")) {
+                if(plataformaI.getLocation().y>7)
                 plataformaI.setLocation(plataformaI.getLocation().x, plataformaI.getLocation().y - 5);
             } else if(mov.equals("s")){
+                if(plataformaI.getLocation().y<480)
                 plataformaI.setLocation(plataformaI.getLocation().x, plataformaI.getLocation().y + 5);
             }
         } else if(numPad.equals("p2")){
             if (mov.equals("8")){
+                if(plataformaD.getLocation().y>7)
                 plataformaD.setLocation(plataformaD.getLocation().x, plataformaD.getLocation().y - 5);
             }else if(mov.equals("2")){
+                if(plataformaD.getLocation().y<480)
                 plataformaD.setLocation(plataformaD.getLocation().x, plataformaD.getLocation().y + 5);
             }
         }
