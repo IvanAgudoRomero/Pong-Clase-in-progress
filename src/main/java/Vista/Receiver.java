@@ -31,10 +31,10 @@ public class Receiver implements Runnable {
             while (true) {                                
                 datagram = new DatagramPacket(buffer, MAX_LEN);
                 mySocket.receive(datagram);
-                System.out.println("Recibido");
+                //System.out.println("Recibido");
                 msg = new String(buffer);
                 //desglosar msg para el movimiento y el padel
-                System.out.println("el msg es:"+msg+"|");
+                //System.out.println("el msg es:"+msg+"|");
                 String[] datos = msg.split("#");
                 if (datos.length>1) {                    
                     numpad = datos[0];

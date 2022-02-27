@@ -21,8 +21,17 @@ public class Vista extends JFrame {
     private Thread hiloBola;
     private Receiver receiver;
     private ReceiverTCP receiverTCP;
+    protected boolean empezar = false;
+    boolean conexion1;
+    boolean conexion2;
+    private int velocidad;
 
     public Vista() {
+        conexion1 = false;
+        conexion2 = false;
+
+        velocidad = 0;
+
         escenario = new JPanel();
         puntuaciones = new JPanel();
 
@@ -77,7 +86,7 @@ public class Vista extends JFrame {
     }
 
     public void moverPadel(String numPad, String mov) {
-        System.out.println("numPad= "+numPad+"  mov= "+mov);
+       // System.out.println("numPad= "+numPad+"  mov= "+mov);
         mov = mov.trim();
         numPad = numPad.trim();
         if (numPad.equals("p1")) {
@@ -96,27 +105,28 @@ public class Vista extends JFrame {
     }
 
     public void ejecutarBola(int velocidad){
-        pelota = new Pelota(800, 570, velocidad);  //llamar con ese tamaño porque lo llamas para setear los márgenes
-        hiloBola = new Thread(new PelotaThread(this, pelota)); //la bola empieza a moverse si o si
-        hiloBola.start();
+        if(empezar) {
+            pelota = new Pelota(800, 570, velocidad);  //llamar con ese tamaño porque lo llamas para setear los márgenes
+            hiloBola = new Thread(new PelotaThread(this, pelota)); //la bola empieza a moverse si o si
+            hiloBola.start();
+        }
     }
 
     public void procesaMsg(String msg){
         String[] datos;
         datos = msg.split("#");
+
         if(datos.length>2) {
             this.puntosI.setText(datos[2].toUpperCase(Locale.ROOT)+": 0");
-            /*
-            if (datos[3].equals("p1")) {
-                v.puntosI.setText(datos[2]);
-            } else if (datos[3].equals("p1")) {
-                v.puntosD.setText(datos[2]);
-            }
-
-             */
+            velocidad = Integer.parseInt(datos[0]);
+            conexion1 = true;
         }else{
             this.puntosD.setText(datos[0].toUpperCase(Locale.ROOT)+": 0");
+            conexion2 = true;
         }
-        this.ejecutarBola(Integer.parseInt(datos[0]));
+        if(conexion1 && conexion2) {
+            empezar = true;
+            this.ejecutarBola(velocidad);
+        }
     }
 }
