@@ -140,13 +140,22 @@ public class Vista extends JFrame {
     }
 
     public void arbitro(){
+        int difGoles;
         int limPuntos = Integer.parseInt(datosLargos[1]);
         if(Integer.parseInt(numeroD.getText())==limPuntos){
             continuar = false;
-            Ranking r = new Ranking();
+            difGoles = Integer.parseInt(numeroD.getText()) - Integer.parseInt(numeroI.getText());
+            if(difGoles<0){
+                difGoles*=-1;
+            }
+            Ranking r = new Ranking(difGoles, puntosI.getText().trim(), puntosD.getText().trim());
         }else if(Integer.parseInt(numeroI.getText())==limPuntos){
             continuar = false;
-            Ranking r = new Ranking();
+            difGoles = Integer.parseInt(numeroD.getText()) - Integer.parseInt(numeroI.getText());
+            if(difGoles<0){
+                difGoles*=-1;
+            }
+            Ranking r = new Ranking(difGoles, puntosD.getText().trim(), puntosI.getText().trim());
         }
     }
 
