@@ -1,8 +1,6 @@
 package Vista;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -145,8 +143,24 @@ public class Vista extends JFrame {
         int limPuntos = Integer.parseInt(datosLargos[1]);
         if(Integer.parseInt(numeroD.getText())==limPuntos){
             continuar = false;
+            Ranking r = new Ranking();
         }else if(Integer.parseInt(numeroI.getText())==limPuntos){
             continuar = false;
+            Ranking r = new Ranking();
+        }
+    }
+
+    public void colision(){
+        Rectangle rBola = new Rectangle(bola.getBounds());
+        Rectangle rPadelI = new Rectangle(plataformaI.getBounds());
+        Rectangle rPadelD = new Rectangle(plataformaD.getBounds());
+
+        if(rBola.intersects(rPadelI)){
+            pelota.rebota();
+        }
+
+        if(rBola.intersects(rPadelD)){
+            pelota.rebota();
         }
     }
 }

@@ -44,6 +44,11 @@ public class Pelota {
         v.numeroD.setText(p2+"");
         v.numeroI.setText(p1+"");
         v.arbitro();
+        v.colision();
+    }
+
+    public void rebota(){
+        dirX*=-1;
     }
 
     public int getPosX() {
